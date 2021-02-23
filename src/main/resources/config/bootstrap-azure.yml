@@ -1,0 +1,13 @@
+# ===================================================================
+# Spring Cloud Config bootstrap configuration for the "azure" profile
+# ===================================================================
+
+# Spring Cloud Registry Server and Spring Cloud Config Server are
+# automatically set up by Azure Spring Cloud, they should not be
+# configured here.
+
+spring:
+  cloud:
+    config:
+      fail-fast: true
+      uri:
