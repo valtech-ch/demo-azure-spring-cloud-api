@@ -31,24 +31,35 @@ spring:
       enabled: false
     livereload:
       enabled: false
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:sqlserver://localhost:1433;database=DemoAzureSpringCloudApi
-    username: SA
-    password:
-    hikari:
-      poolName: Hikari
-      auto-commit: false
-      data-source-properties:
-        cachePrepStmts: true
-        prepStmtCacheSize: 250
-        prepStmtCacheSqlLimit: 2048
-        useServerPrepStmts: true
+  shardingsphere:
+    datasource:
+      names: dsch, dsde
+      dsch:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:sqlserver://localhost:1434;database=DemoAzureSpringCloudApi
+        username: SA
+        password:
+        pool-name: HikariPool-1
+        auto-commit: false
+      dsde:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:sqlserver://localhost:1435;database=DemoAzureSpringCloudApi
+        username: SA
+        password:
+        pool-name: HikariPool-2
+        auto-commit: false
+    sharding:
+      default-data-source-name: dsch
+      default-database-strategy:
+        inline:
+          sharding-column: country
+          algorithm-expression: ds$->{country}
   jpa:
-    show-sql: false
+    show-sql: true
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod
+    enabled: false
   mail:
     host: localhost
     port: 25
