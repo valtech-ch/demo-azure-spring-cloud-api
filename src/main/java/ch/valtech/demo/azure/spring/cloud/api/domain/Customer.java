@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * The Customer entity.
@@ -32,6 +33,9 @@ public class Customer implements Serializable {
 
     @Column(name = "country")
     private String country;
+
+    @Column(name = "birthday")
+    private LocalDate birthday;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -93,6 +97,19 @@ public class Customer implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public Customer birthday(LocalDate birthday) {
+        this.birthday = birthday;
+        return this;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -120,6 +137,7 @@ public class Customer implements Serializable {
             ", lastName='" + getLastName() + "'" +
             ", email='" + getEmail() + "'" +
             ", country='" + getCountry() + "'" +
+            ", birthday='" + getBirthday() + "'" +
             "}";
     }
 }
