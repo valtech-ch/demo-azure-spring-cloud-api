@@ -15,6 +15,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,6 +44,9 @@ public class CustomerResourceIT {
     private static final String DEFAULT_COUNTRY = "AAAAAAAAAA";
     private static final String UPDATED_COUNTRY = "BBBBBBBBBB";
 
+    private static final LocalDate DEFAULT_BIRTHDAY = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_BIRTHDAY = LocalDate.now(ZoneId.systemDefault());
+
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -67,7 +72,8 @@ public class CustomerResourceIT {
             .firstName(DEFAULT_FIRST_NAME)
             .lastName(DEFAULT_LAST_NAME)
             .email(DEFAULT_EMAIL)
-            .country(DEFAULT_COUNTRY);
+            .country(DEFAULT_COUNTRY)
+            .birthday(DEFAULT_BIRTHDAY);
         return customer;
     }
     /**
@@ -81,7 +87,8 @@ public class CustomerResourceIT {
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .email(UPDATED_EMAIL)
-            .country(UPDATED_COUNTRY);
+            .country(UPDATED_COUNTRY)
+            .birthday(UPDATED_BIRTHDAY);
         return customer;
     }
 
@@ -108,6 +115,7 @@ public class CustomerResourceIT {
         assertThat(testCustomer.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testCustomer.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testCustomer.getCountry()).isEqualTo(DEFAULT_COUNTRY);
+        assertThat(testCustomer.getBirthday()).isEqualTo(DEFAULT_BIRTHDAY);
     }
 
     @Test
@@ -144,7 +152,8 @@ public class CustomerResourceIT {
             .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
             .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)));
+            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)))
+            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())));
     }
     
     @Test
@@ -161,7 +170,8 @@ public class CustomerResourceIT {
             .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME))
             .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-            .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY));
+            .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY))
+            .andExpect(jsonPath("$.birthday").value(DEFAULT_BIRTHDAY.toString()));
     }
     @Test
     @Transactional
@@ -187,7 +197,8 @@ public class CustomerResourceIT {
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .email(UPDATED_EMAIL)
-            .country(UPDATED_COUNTRY);
+            .country(UPDATED_COUNTRY)
+            .birthday(UPDATED_BIRTHDAY);
 
         restCustomerMockMvc.perform(put("/api/customers")
             .contentType(MediaType.APPLICATION_JSON)
@@ -202,6 +213,7 @@ public class CustomerResourceIT {
         assertThat(testCustomer.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testCustomer.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testCustomer.getCountry()).isEqualTo(UPDATED_COUNTRY);
+        assertThat(testCustomer.getBirthday()).isEqualTo(UPDATED_BIRTHDAY);
     }
 
     @Test

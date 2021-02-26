@@ -76,6 +76,7 @@ class CustomerGatlingTest extends Simulation {
                 , "lastName":"SAMPLE_TEXT"
                 , "email":"SAMPLE_TEXT"
                 , "country":"SAMPLE_TEXT"
+                , "birthday":"2020-01-01T00:00:00.000Z"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_customer_url"))).exitHereIfFailed

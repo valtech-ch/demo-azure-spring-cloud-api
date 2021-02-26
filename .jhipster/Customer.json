@@ -16,6 +16,10 @@
     {
       "fieldName": "country",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "birthday",
+      "fieldType": "LocalDate"
     }
   ],
   "relationships": [],
@@ -31,5 +35,7 @@
   "embedded": false,
   "clientRootFolder": "DemoAzureSpringCloudApi",
   "applications": "*",
-  "microserviceName": "DemoAzureSpringCloudApi"
+  "microserviceName": "DemoAzureSpringCloudApi",
+  "searchEngine": false,
+  "databaseType": "sql"
 }
