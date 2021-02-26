@@ -32,34 +32,43 @@ spring:
     livereload:
       enabled: false
   shardingsphere:
+    props:
+      sql:
+        show: true
     datasource:
-      names: dsch, dsde
-      dsch:
+      names: ds0, ds1
+      ds0:
         type: com.zaxxer.hikari.HikariDataSource
         jdbcUrl: jdbc:sqlserver://localhost:1434;database=DemoAzureSpringCloudApi
         username: SA
         password:
-        pool-name: HikariPool-1
+        pool-name: HikariPool-Europe
         auto-commit: false
-      dsde:
+      ds1:
         type: com.zaxxer.hikari.HikariDataSource
         jdbcUrl: jdbc:sqlserver://localhost:1435;database=DemoAzureSpringCloudApi
         username: SA
         password:
-        pool-name: HikariPool-2
+        pool-name: HikariPool-Canada
         auto-commit: false
     sharding:
-      default-data-source-name: dsch
+      default-data-source-name: ds0
       default-database-strategy:
-        inline:
+        standard:
           sharding-column: country
-          algorithm-expression: ds$->{country}
+          precise-algorithm-class-name: ch.valtech.demo.azure.spring.cloud.api.config.PreciseShardingAlgorithmTest
+      binding-tables: customer
+      tables:
+        customer:
+          actual-data-nodes: ds$->{0..1}.customer
+          table-strategy:
+            none
   jpa:
     show-sql: true
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
-    contexts: prod
     enabled: false
+    contexts: prod
   mail:
     host: localhost
     port: 25
