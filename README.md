@@ -56,3 +56,6 @@ This command will add a couple of azure related spring dependencies, an azure pr
 #### Useful commands:
     az spring-cloud app logs -f –name <azure-spring-cloud-app-name>
 
+### Infrastructure Diagram
+
+![Diagram](src/main/resources/static/images/Diagram.png?raw=true)
