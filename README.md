@@ -32,7 +32,7 @@ This command will add a couple of azure related spring dependencies, an azure pr
 
 ### 1. Configure Always encrypted
 
-*   Enable client application access by creating an _Azure Active Directory_ application (**AAD**) which enables the Spring Boot app to authenticate itself in order to retrieve the _Column Master Key_ (**CMK**) for enc/dec the data. See [how to register an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#register-an-application-with-azure-ad-and-create-a-service-principal)
+*   Enable client application access by creating an _Azure Active Directory_ application (**AAD**) which enables the Spring Boot app to authenticate itself in order to retrieve the _Column Master Key_ (**CMK**) for encrypting/decrypting the data. See [how to register an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#register-an-application-with-azure-ad-and-create-a-service-principal)
 *   Create an application secret for the AAD and save its value for the actual authentication. Check option 2 for [authentication](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#authentication-two-options )
 *   Add privileges for the AAD application to the _Azure Key Vault_
     
