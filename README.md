@@ -102,6 +102,7 @@ In order to expose the application created in a private network to the internet 
         - Managed Identity: [select the new managed identity]
         - Key Vault: [your key vault]
         - Certificate: [your certificate]
+         
        On the Backend Targets page:
         - Target type: Backend pool 
         - Backend target: [application in Azure Spring Cloud]
@@ -110,4 +111,7 @@ In order to expose the application created in a private network to the internet 
 * Save and create the gateway
 * Use the Gateway’s public IP/domain name to access the application from the internet
 
-      
+
+### Infrastructure Diagram for the app deployed in a virtual network
+
+![Diagram](src/main/resources/static/images/Vnet-diagram.png?raw=true)
