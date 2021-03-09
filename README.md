@@ -59,3 +59,55 @@ This command will add a couple of azure related spring dependencies, an azure pr
 ### Infrastructure Diagram
 
 ![Diagram](src/main/resources/static/images/Diagram.png?raw=true)
+
+
+# Running a Spring Boot app in a virtual network
+
+## Components:
+
+* Virtual Network
+* Azure Spring Cloud application hosting a Spring Boot in the virtual network
+* Azure SQL Server
+* Azure SQL database
+* Azure Key Vault
+* Application Gateway
+* Public IP Address
+* Managed Identity
+* Private DNS Zone
+
+
+### 1. Deploying an application in a Virtual Network
+
+*   Create a _Virtual Network_ and _Azure Spring Cloud_ by following the [instructions](https://docs.microsoft.com/en-us/azure/spring-cloud/spring-cloud-tutorial-deploy-in-azure-virtual-network#prerequisites)
+*   Deploy your Spring Application same as described above
+*   In order to access the application deployed in a virtual network you need to create an _Azure Private DNS Zone_, link it to the _Virtual Network_ and create _DNS records_ in this zone for the service-runtime-subnet [Instructions](https://github.com/microsoft/vnet-in-azure-spring-cloud/blob/master/03-access-your-application-in-private-network.md#access-your-application-in-private-network)
+
+### 2. Expose the Application to the Internet
+
+In order to expose the application created in a private network to the internet we need an Application Gateway
+*	Create a subnet in the same _Virtual Network_ for the _Application Gateway_
+*	Create a _Public IP Address_ which will be used as the Frontend of the Application Gateway. While creating the resource select Static allocation method and Standard SKU
+*	Create a _Managed Identity_ resource and give it access to the Key Vault by adding it to the Access Policies
+*	Follow the step-by-step instructions to create an _Application Gateway_ resource 
+     * In the first step provide the Subscription and Resource group where the vnet resides, give a name and select the Virtual Network and the newly created subnet for the gateway.
+     * In the second step select the Public IP Address that you have created
+     * In the third step add a backend pool using the fully qualified domain name (**FQDN**) of the endpoint we have assigned to the app running in Azure Spring Cloud
+     * In the Configuration add a routing rule connecting the frontend IP with the backend pool.
+       
+       On the Listener page:
+        - Listener name: [your listener name]
+        - Frontend IP: [the created Public IP Address]
+        - Protocol: HTTPS
+        - Certificate: Choose certificate from the Key Vault
+        - Managed Identity: [select the new managed identity]
+        - Key Vault: [your key vault]
+        - Certificate: [your certificate]
+       On the Backend Targets page:
+        - Target type: Backend pool 
+        - Backend target: [application in Azure Spring Cloud]
+        - HTTP settings: add new (select _HTTPS_ and _Pick Host Name From Backend Target_)
+    
+* Save and create the gateway
+* Use the Gateway’s public IP/domain name to access the application from the internet
+
+      
